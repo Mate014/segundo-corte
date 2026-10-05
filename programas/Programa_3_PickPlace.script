@@ -1,0 +1,58 @@
+def Programa_3_PickPlace():
+  sim = rpc_factory("xmlrpc", "http://172.17.0.1:40404/RPC2")
+  set_tcp(p[0,0,0,0,0,0])
+  set_payload(0.8, [0,0,0.04])
+  movej([0, -1.570796327, 1.570796327, -1.570796327, -1.570796327, 0], a=0.6, v=0.4)
+  base = get_actual_tcp_pose()
+  def punto(dx, dy, dz):
+    return p[base[0]+dx,base[1]+dy,base[2]+dz,base[3],base[4],base[5]]
+  end
+  modbus_add_signal("172.17.0.1", 255, 0, 0, "CONFIRMAR_CICLO", False)
+  modbus_set_signal_update_frequency("CONFIRMAR_CICLO", 10)
+  sim.initialize()
+  pick1 = punto(-0.05,-0.06,-0.06)
+  pick2 = punto(0.05,-0.06,-0.06)
+  dest1 = punto(-0.05,0.08,-0.06)
+  dest2 = punto(0.05,0.08,-0.06)
+  while True:
+    sim.begin_cycle(pick1, pick2)
+    pieza = 1
+    while pieza <= 2:
+      if pieza == 1:
+        recogida = pick1
+        llegada = dest1
+      else:
+        recogida = pick2
+        llegada = dest2
+      end
+      arriba_recogida = p[recogida[0],recogida[1],recogida[2]+0.10,recogida[3],recogida[4],recogida[5]]
+      arriba_llegada = p[llegada[0],llegada[1],llegada[2]+0.10,llegada[3],llegada[4],llegada[5]]
+      movel(arriba_recogida, a=0.3, v=0.1)
+      movel(recogida, a=0.3, v=0.07)
+      sim.close(pieza, get_actual_tcp_pose())
+      set_standard_digital_out(1, True)
+      set_payload(0.9, [0,0,0.04])
+      movel(arriba_recogida, a=0.3, v=0.1)
+      sim.event("intermedio_sobre_recogida", get_actual_tcp_pose())
+      sleep(0.3)
+      movel(arriba_llegada, a=0.3, v=0.1)
+      sim.event("intermedio_sobre_llegada", get_actual_tcp_pose())
+      sleep(0.3)
+      movel(llegada, a=0.3, v=0.07)
+      sim.open(get_actual_tcp_pose())
+      set_standard_digital_out(1, False)
+      set_payload(0.8, [0,0,0.04])
+      movel(arriba_llegada, a=0.3, v=0.1)
+      pieza = pieza + 1
+    end
+    sim.event("esperando_entrada_baja", get_actual_tcp_pose())
+    while modbus_get_signal_status("CONFIRMAR_CICLO"):
+      sleep(0.05)
+    end
+    sim.event("esperando_confirmacion_alta", get_actual_tcp_pose())
+    while not modbus_get_signal_status("CONFIRMAR_CICLO"):
+      sleep(0.05)
+    end
+    sim.event("confirmacion_recibida", get_actual_tcp_pose())
+  end
+end

@@ -1,0 +1,9 @@
+def Programa_2_ExternalControl():
+  sim = rpc_factory("xmlrpc", "http://172.17.0.1:40404/RPC2")
+  set_standard_digital_out(0, True)
+  sim.event("salida_control_alta", get_actual_tcp_pose())
+  popup("El control se compartira con ROS 2 simulado 5 segundos despues de confirmar.", title="Programa 2", blocking=True)
+  sim.event("popup_control_confirmado", get_actual_tcp_pose())
+  sleep(5.0)
+  sim.event("espera_5s_terminada", get_actual_tcp_pose())
+end
