@@ -6,7 +6,7 @@ Práctica 1: manipulador UR5, realizada por Brayan Mateo Bravo Losada exclusivam
 
 - `programas/`: programas PolyScope `.urp`, rutinas URScript y configuración.
 - `exportados_desde_docker/`: archivos exportados literalmente desde el contenedor URSim.
-- `docs/VIDEO.md`: espacio reservado para el enlace del video de demostración.
+- `docs/`: video de demostración y enlace de acceso.
 - Scripts Python y PowerShell: generación, ejecución, exportación y pruebas.
 
 ## Programas
@@ -23,9 +23,7 @@ El bonus usa MoveIt para planificar y ejecutar tres trayectorias en URSim median
 <summary><b>▶ Ver video: práctica del manipulador UR5</b> (clic para abrir o cerrar)</summary>
 <br>
 
-[Enlace del video](docs/VIDEO.md)
-
-Estado: pendiente de agregar. Este repositorio todavía no contiene un video.
+[Ver o descargar el video](https://github.com/Mate014/segundo-corte/raw/refs/heads/main/docs/video_demostracion_ur5.mp4)
 
 </details>
 
@@ -61,7 +59,7 @@ Interfaces locales:
 
 No hay conexión a un robot físico. La pinza se simula por estados mediante XML-RPC y DO1; no incluye física de contacto ni emula el protocolo propietario de Robotiq. La confirmación es una entrada digital discreta Modbus, no la entrada estándar DI0 del controlador.
 
-Este repositorio contiene únicamente el código, los programas del manipulador, su configuración y documentación de uso. Las capturas, los registros de ejecución y el informe no se publican. Los scripts pueden generar una carpeta local `evidencias/`, que Git ignora.
+Este repositorio contiene el código, los programas del manipulador, su configuración, documentación de uso y el video de demostración. Las capturas, los registros de ejecución y el informe se conservaron por separado. Los scripts pueden generar una carpeta local `evidencias/`, que Git ignora.
 
 ## Pruebas
 
