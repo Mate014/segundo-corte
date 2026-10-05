@@ -1,0 +1,11 @@
+{
+  "integrantes": ["Brayan Mateo Bravo Losada"],
+  "iniciales": "BMBL",
+  "simulador_ip": "172.17.0.2",
+  "servidor_ip": "172.17.0.1",
+  "rpc_port": 40404,
+  "salida_control": 0,
+  "masa_pinza_kg": 0.8,
+  "masa_pieza_kg": 0.1,
+  "home": [0, -1.570796327, 1.570796327, -1.570796327, -1.570796327, 0]
+}
